@@ -4,9 +4,10 @@ export const styleMain = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 350,
-  height: 300,
+  height: 400,
   bgcolor: 'background.paper',
-  border: '1px solid #000',
+  border: '.1px solid #C1CDCD',
+  borderRadius: 4,
   boxShadow: 24,
   display: 'flex',
   flexDirection: 'column',
@@ -16,11 +17,10 @@ export const styleMain = {
 
 export const styleBox = {
   display: 'flex',
-  
   width: 300,
   justifyContent: 'center',
-  marginTop: 3,
-  padding: 2,
+  marginTop: 2,
+  marginBottom: 2,
 }
 
 export const styleSelectorUf = {
@@ -51,3 +51,40 @@ export const styleText = {
   color: '#4F4F4F'
 
 }
+
+export const textFild = {
+  width: 300,
+  marginBottom: 2
+}
+
+export const button = {
+  height: 56,
+  width: 300,
+  borderColor: '#228B22',
+  color: '#228B22',
+  transition: 2,
+  
+  '&:hover': {
+    background: '#228B22',
+    borderColor: '#228B22',
+    color: 'white'
+  }
+
+}
+
+export const CloseButton = {
+  height: 56,
+  width: 300,
+  marginLeft: 2,
+  borderColor: '#A52A2A',
+  color: '#A52A2A',
+  transition: 2,
+
+  '&:hover': {
+    background: '#A52A2A',
+    borderColor: '#A52A2A',
+    color: 'white'
+  }
+
+}
+
