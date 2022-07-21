@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import axios from 'axios';
 
 import { 
   TextField,
@@ -25,7 +26,6 @@ import {
   button,
   CloseButton
 } from './styles.js'
-import axios from 'axios';
 
 
 
@@ -33,8 +33,9 @@ export function ModalRegister() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(null);
   const [ufs, setUfs] = React.useState([]);
-  const [selectedUf, setSelectedUf] = React.useState('0');
-  const [selectedCity, setSelectedCity] = React.useState('0');
+  const [selectedUf, setSelectedUf] = React.useState('');
+  const [selectedCity, setSelectedCity] = React.useState('');
+  const [name, setName] = React.useState('');
 
   const [cities, setCities] = React.useState([]);
 
@@ -54,6 +55,21 @@ export function ModalRegister() {
       })
   },[selectedUf]);
 
+  const handleCreateNewRegister = () => {
+    axios.post('http://127.0.0.1:3333/clients', {
+      name: name, 
+      city: selectedCity, 
+      uf: selectedUf, 
+      birthday: value
+    })
+    handleClose()
+  }
+
+  function handleSelectedName(event) {
+    const name = event.target.value;
+    setName(name);
+  }
+
   function handleSelectedUf(event) {
     const uf = event.target.value;
     setSelectedUf(uf);
@@ -63,15 +79,27 @@ export function ModalRegister() {
     setSelectedCity(city);
   }
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setOpen(false)
+    setValue(null)
+    setSelectedUf('')
+    setSelectedCity('')
+    setName('')
+    setOpen(true)
+  };
+  function handleClose() {
+    setOpen(false)
+    setValue(null)
+    setSelectedUf('')
+    setSelectedCity('')
+  };
 
 
 
 
   return (
     <>
-      <Button onClick={handleOpen}>Cadastrar</Button>
+      <Button onClick={handleOpen}>+ Cadastrar</Button>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -80,7 +108,13 @@ export function ModalRegister() {
         <Box sx={styleMain} component="form">   
           <span style={styleText}>Cadastro cliente</span>
 
-          <TextField id="outlined-basic" label="Nome" variant="outlined" sx={textFild}/>
+          <TextField
+            id="outlined-basic" 
+            label="Nome" 
+            value={name}
+            onChange={handleSelectedName}
+            variant="outlined" 
+            sx={textFild}/>
 
           <LocalizationProvider dateAdapter={AdapterDateFns} >
             <DatePicker
@@ -128,7 +162,7 @@ export function ModalRegister() {
           </FormControl>
           </Box>
               <Box sx={styleBox}>
-                <Button variant="outlined" sx={button} onClick={handleClose}>Cadastrar</Button>
+                <Button variant="outlined" sx={button} onClick={handleCreateNewRegister}>Cadastrar</Button>
                 <Button variant="outlined" sx={CloseButton} onClick={handleClose}>Cancelar</Button>
               </Box>
         </Box>

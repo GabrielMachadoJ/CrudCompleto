@@ -10,7 +10,7 @@ class ClientsSchema extends Schema {
       table.string('name', 64).notNullable()
       table.string('city', 64).notNullable()
       table.string('uf', 64).notNullable()
-      table.string('birthday', 64).notNullable()
+      table.date('birthday').notNullable()
       table.timestamps()
     })
   }

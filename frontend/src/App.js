@@ -1,7 +1,10 @@
-import { ModalRegister } from "./components/ModalRegister";
+import { Main } from "./components/Main";
+
 
 export function App() {
   return (
-    <ModalRegister />
+    <>
+      <Main/>
+    </>
   );
 }
