@@ -39,8 +39,16 @@ export const styleForm = {
 }
 
 export const styleButton = {
-  display: 'flex',
-  justifyContent: 'flex-end'
+  height: 40,
+  width: 130,
+  borderColor: '#228B22',
+  color: '#228B22',
+  transition: 2,
+  
+  '&:hover': {
+    filter: 'brightness(0.5)',
+    borderColor: '#228B22',
+  }
 
 }
 
@@ -88,3 +96,18 @@ export const CloseButton = {
 
 }
 
+export const styleButtonContainer = {
+  marginTop: 1,
+}
+
+export const styleChangeButton = {
+  marginRight: 1,
+  borderColor: '#4169E1',
+  color: '#4169E1',
+}
+
+export const styleDeleteButton = {
+  borderColor: '#b42727',
+  color: '#b42727',
+  marginRight: 1,
+}

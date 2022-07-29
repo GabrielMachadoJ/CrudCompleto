@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import axios from 'axios';
 
 import { 
@@ -24,12 +25,16 @@ import {
   styleText,
   textFild,
   button,
-  CloseButton
+  CloseButton,
+  styleButtonContainer,
+  styleButton,
+  styleChangeButton,
+  styleDeleteButton
 } from './styles.js'
 
 
 
-export function ModalRegister() {
+export function ModalRegister({ id, onConfirm }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(null);
   const [ufs, setUfs] = React.useState([]);
@@ -38,6 +43,7 @@ export function ModalRegister() {
   const [name, setName] = React.useState('');
 
   const [cities, setCities] = React.useState([]);
+
 
   React.useEffect(() => {
     axios
@@ -55,14 +61,23 @@ export function ModalRegister() {
       })
   },[selectedUf]);
 
-  const handleCreateNewRegister = () => {
-    axios.post('http://127.0.0.1:3333/clients', {
+  const handleCreateNewRegister = async() => {
+
+    const dadosCliente = {
       name: name, 
       city: selectedCity, 
       uf: selectedUf, 
       birthday: value
-    })
+    }
+
+    if(!id)
+      await axios.post('http://127.0.0.1:3333/clients', dadosCliente)
+    
+    else
+      await axios.put(`http://localhost:3333/clients/${id.id}`, dadosCliente)
+
     handleClose()
+    onConfirm()
   }
 
   function handleSelectedName(event) {
@@ -80,13 +95,27 @@ export function ModalRegister() {
   }
 
   const handleOpen = () => {
-    setOpen(false)
     setValue(null)
     setSelectedUf('')
     setSelectedCity('')
     setName('')
-    setOpen(true)
+    setOpen(true);
   };
+
+  async function handleUpdateClient(clientId) {
+    const { id } = clientId
+    const { data } = await axios.get(`http://localhost:3333/clients/${id}`)
+    const { birthday, uf, city, name } = data
+      
+    setValue(birthday)
+    setSelectedUf(uf)
+    setSelectedCity(city)
+    setName(name)
+    setOpen(true);
+    
+
+  }
+  
   function handleClose() {
     setOpen(false)
     setValue(null)
@@ -95,11 +124,20 @@ export function ModalRegister() {
   };
 
 
-
+  function handleDelete(data) {
+    console.log(data)
+    const { id } = data;
+    axios.delete(`http://localhost:3333/clients/${id}`)
+  }
 
   return (
     <>
-      <Button onClick={handleOpen}>+ Cadastrar</Button>
+    {/* arrumar o estilo alighitem depois */}
+        <Box sx={styleButtonContainer}>
+          <Button variant="outlined" onClick={() => handleUpdateClient(id)} sx={styleChangeButton}>Alterar</Button>
+          <Button variant="outlined"  onClick={() => handleDelete(id)} sx={styleDeleteButton}>Excluir</Button>
+        <Button sx={styleButton} variant="outlined" onClick={handleOpen}>+ cadastrar</Button>
+      </Box>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
