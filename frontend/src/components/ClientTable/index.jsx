@@ -1,24 +1,13 @@
 import * as React from 'react';
-import axios from 'axios';
-import moment from 'moment';
-
 import { DataGrid } from '@mui/x-data-grid';
-import { Button } from '@mui/material';
-import { Box } from '@mui/system';
 
 import {
    styleTable, 
    styleMainTable, 
-   styleButtonContainer,
-   styleDeleteButton,
-   styleChangeButton
 } from './styles';
-
 
 export function ClientTable({ onSelectedItem, rows }) {
   const [selectionModel, setSelectionModel] = React.useState([]);
-
-
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70},

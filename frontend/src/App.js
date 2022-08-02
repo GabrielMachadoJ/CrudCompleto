@@ -1,10 +1,9 @@
-import { Main } from "./components/Main";
-
+import { MainContainer } from "./components/MainContainer";
 
 export function App() {
   return (
     <>
-      <Main/>
+      <MainContainer/>
     </>
   );
 }

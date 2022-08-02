@@ -1,7 +1,7 @@
 export const styleMainTable = {
-  height: 400,  
+  height: '60vh',  
   marginTop: 40,
-  width: '51%',
+  width: '80%',
 }
 export const styleTable = {
   boxShadow: 5,

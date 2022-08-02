@@ -6,7 +6,7 @@ export const styleMain = {
 export const styleBox = {
   display: 'flex',
   justifyContent: 'space-between',
-  width: '50%',
+  width: '80%',
   p: 1,
   boxShadow: 5,
   borderRadius: 1

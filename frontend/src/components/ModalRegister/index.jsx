@@ -31,6 +31,7 @@ import {
   styleChangeButton,
   styleDeleteButton
 } from './styles.js'
+import { DeleteModal } from '../DeleteModal/index.jsx';
 
 
 
@@ -41,6 +42,7 @@ export function ModalRegister({ id, onConfirm }) {
   const [selectedUf, setSelectedUf] = React.useState('');
   const [selectedCity, setSelectedCity] = React.useState('');
   const [name, setName] = React.useState('');
+  const [alt, setAlt] = React.useState(false)
 
   const [cities, setCities] = React.useState([]);
 
@@ -61,8 +63,7 @@ export function ModalRegister({ id, onConfirm }) {
       })
   },[selectedUf]);
 
-  const handleCreateNewRegister = async() => {
-
+  const handleCreateNewRegister = async () => {
     const dadosCliente = {
       name: name, 
       city: selectedCity, 
@@ -70,14 +71,15 @@ export function ModalRegister({ id, onConfirm }) {
       birthday: value
     }
 
-    if(!id)
-      await axios.post('http://127.0.0.1:3333/clients', dadosCliente)
-    
-    else
+    if(alt)
       await axios.put(`http://localhost:3333/clients/${id.id}`, dadosCliente)
+    else
+      await axios.post('http://127.0.0.1:3333/clients', dadosCliente)
+
 
     handleClose()
     onConfirm()
+    setAlt(false)
   }
 
   function handleSelectedName(event) {
@@ -112,8 +114,7 @@ export function ModalRegister({ id, onConfirm }) {
     setSelectedCity(city)
     setName(name)
     setOpen(true);
-    
-
+    setAlt(true)
   }
   
   function handleClose() {
@@ -123,19 +124,11 @@ export function ModalRegister({ id, onConfirm }) {
     setSelectedCity('')
   };
 
-
-  function handleDelete(data) {
-    console.log(data)
-    const { id } = data;
-    axios.delete(`http://localhost:3333/clients/${id}`)
-  }
-
   return (
     <>
-    {/* arrumar o estilo alighitem depois */}
-        <Box sx={styleButtonContainer}>
-          <Button variant="outlined" onClick={() => handleUpdateClient(id)} sx={styleChangeButton}>Alterar</Button>
-          <Button variant="outlined"  onClick={() => handleDelete(id)} sx={styleDeleteButton}>Excluir</Button>
+      <Box sx={styleButtonContainer}>
+        <Button variant="outlined" onClick={() => handleUpdateClient(id)} sx={styleChangeButton}>Alterar</Button>
+        <Button><DeleteModal id={id} onConfirm={onConfirm} /></Button>
         <Button sx={styleButton} variant="outlined" onClick={handleOpen}>+ cadastrar</Button>
       </Box>
       <Modal

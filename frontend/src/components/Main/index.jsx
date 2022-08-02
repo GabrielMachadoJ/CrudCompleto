@@ -13,20 +13,18 @@ import {
   styleMain
 } from "./styles";
 
-export function Main() {
+export function MainContent() {
   const [linhaSelecionada, setLinhaSelecionada] = useState(null);
   const [rows, setRows] = useState([]);
 
   useEffect(()=>{
-    listClientes()
+    listClients()
   },[]);
 
 
-  async function listClientes(){
-
+  async function listClients() {
     const response = await axios.get('http://localhost:3333/clients')
     
-
     const client = response.data.map((index) => {
       return {
         id: index.id,
@@ -44,7 +42,7 @@ export function Main() {
     <Box sx={styleMain}>
       <Box sx={styleBox}>
         <span style={styleText}>Clientes</span>
-        <ModalRegister id={linhaSelecionada} onConfirm={listClientes}/>
+        <ModalRegister id={linhaSelecionada} onConfirm={listClients}/>
       </Box>
       <ClientTable onSelectedItem={(valorSelecionado) => {setLinhaSelecionada(valorSelecionado)}} rows={rows}/>
     </Box>
